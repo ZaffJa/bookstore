@@ -15,14 +15,7 @@
                     <div class="control-group">
                         <label class="control-label" for="barcode">Barcode</label>
                         <div class="controls">
-                            <div class="row">
-                                <div class="span6">
-                                    <input type="text" id="barcode" class="span6" name="barcode">
-                                </div>
-                                <div class="span2">
-                                    <div class="loader" style="display: none;"></div>
-                                </div>
-                            </div>
+                            <input type="text" id="barcode" class="span6" name="barcode">
                         </div>
                     </div>
                     <div class="control-group">
@@ -60,7 +53,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="control-group">
+                    <div class="control-group" id="sell_total">
                         <label class="control-label" for="selling_price">Selling Price (RM)</label>
                         <div class="controls">
                             <input type="number" disabled="disabled" id="selling_price" min="1" step="0.01"
@@ -109,8 +102,8 @@
                 width: 100
             });
 
-            $('.alert').on('click',function () {
-               $('#invalid_quantity').hide();
+            $('.alert').on('click', function () {
+                $('#invalid_quantity').hide();
             });
 
             $type.on('change', function () {
@@ -122,7 +115,7 @@
                     $toggle.val(1);
                 }
 
-                console.log($toggle.val());
+                $('#sell_total').toggle();
             });
 
             $('#barcode').on('keyup', function () {
@@ -159,7 +152,7 @@
                     return;
                 }
 
-                if($('#title').val() == '') {
+                if ($('#title').val() == '') {
                     alert('Error occured when submitting transaction');
                     return;
                 }

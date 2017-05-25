@@ -1,13 +1,9 @@
 <?php
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('template/{url}',function($url) {
     return view('template.'.$url);
 });
 
-Route::get('dashboard',function() {
+Route::get('/',function() {
     return view('dashboard');
 });
 Route::get('/dashboard/charts', 'TransactionController@charts');

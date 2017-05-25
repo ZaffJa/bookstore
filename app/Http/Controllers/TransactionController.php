@@ -28,17 +28,29 @@ class TransactionController extends Controller
     {
         $book = Book::where('barcode', $request->barcode)->first();
 
-        $profit = floatval($book->selling_price) - floatval($book->retail_price);
 
         if ($book) {
-            Transaction::create([
-                'transaction_type_id' => $request->type,
-                'book_id' => $book->id,
-                'quantity' => $request->quantity,
-                'profit' => $profit
-            ]);
+
+            if($request->type == 1) {
+                $profit = floatval($book->selling_price) - floatval($book->retail_price);
+
+                Transaction::create([
+                    'transaction_type_id' => $request->type,
+                    'book_id' => $book->id,
+                    'quantity' => $request->quantity,
+                    'profit' => $profit
+                ]);
+            } else {
+                Transaction::create([
+                    'transaction_type_id' => $request->type,
+                    'book_id' => $book->id,
+                    'quantity' => $request->quantity,
+                    'profit' => 0
+                ]);
+            }
 
             $quantityLeft = intval($book->quantity) - intval($request->quantity);
+
             $book->update([
                 'quantity' => $quantityLeft
             ]);
