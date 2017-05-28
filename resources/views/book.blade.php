@@ -15,7 +15,7 @@
                     <div class="control-group">
                         <label class="control-label" for="barcode">Barcode</label>
                         <div class="controls">
-                            <input type="text" class="span6" name="barcode">
+                            <input type="text" class="span6" name="barcode" autofocus>
                         </div>
                     </div>
                     <div class="control-group">
@@ -75,7 +75,7 @@
                     <th>Retail Price (RM)</th>
                     <th>Selling Price (RM)</th>
                     <th>Added Date</th>
-                    <th class="td-actions">Action</th>
+                    <th class="td-actions">Edit</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -99,9 +99,9 @@
                                data-book-selling_price="{{ $book->selling_price }}">
                                 <i class="btn-icon-only icon-edit"> </i>
                             </a>
-                            <a href="{{ action('BookController@delete',$book->id) }}" onclick="return confirm('Are you sure you want to delete this book?');" class="btn btn-danger btn-small">
-                                <i class="btn-icon-only icon-remove"> </i>
-                            </a>
+                            {{--<a href="{{ action('BookController@delete',$book->id) }}" onclick="return confirm('Are you sure you want to delete this book?');" class="btn btn-danger btn-small">--}}
+                                {{--<i class="btn-icon-only icon-remove"> </i>--}}
+                            {{--</a>--}}
                         </td>
                     </tr>
                 @endforeach

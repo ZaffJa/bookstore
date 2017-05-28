@@ -31,7 +31,7 @@ class TransactionController extends Controller
 
         if ($book) {
 
-            if($request->type == 1) {
+            if ($request->type == 1) {
                 $profit = floatval($book->selling_price) - floatval($book->retail_price);
 
                 Transaction::create([
@@ -62,29 +62,67 @@ class TransactionController extends Controller
 
     public function charts()
     {
-        $months = [
-            "January", "February", "March", "April", "May", "June", "July", "August", "October", "November", "December"
-        ];
-
-        $monthOutput = array_slice($months, 0, Carbon::now()->month);
         $weeks = $this->getWeeks()['schedule'];
 
-
-        $monthlyTransaction = Transaction::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->get();
-
-        $weeksPerMonthCount = count(collect($weeks)->first());
-//        $weeksPerMonthCount = count($collectWeeks->first());
-
-
-        for ($week = 0; $week < $weeksPerMonthCount; $week++) {
-            $thisWeek = Carbon::now()->startOfMonth()->addWeek($week);
-
-            return $thisWeek;
+        $monthsArray = [];
+        for ($count = 1; $count <= 12; $count++) {
+            $monthlyTransaction = Transaction::whereMonth('created_at', $count)->sum('profit');
+            $monthsArray[] = $monthlyTransaction;
         }
 
-//        return $monthlyTransaction->all();
-//        return $monthlyTransaction->all();
+        $weeksArray = [];
+        $weeksPerMonthCount = count(collect($weeks)->first());
+        for ($week = 0; $week < $weeksPerMonthCount; $week++) {
+            $startOfWeek = Carbon::now()->startOfMonth()->addWeek($week)->startOfWeek();
+            $endOfWeek = Carbon::now()->startOfMonth()->addWeek($week)->endOfWeek();
 
+            $weeksArray[] = Transaction::whereBetween('created_at', [$startOfWeek, $endOfWeek])->sum('profit');
+        }
+
+        return response()->json([
+            'monthlyProfits' => $monthsArray,
+            'weekNumber' => range(1, $weeksPerMonthCount),
+            'weeklyProfits' => $weeksArray
+        ]);
+    }
+
+    public function transactionsGenerator()
+    {
+        $dates = [];
+        for ($i = 0; $i < 100; $i++) {
+            $type = rand(1, 2);
+            $quantity = rand(1, 10);
+            $book = Book::inRandomOrder()->first();
+            $randomDate = $this->rand_date(Carbon::now()->startOfYear(), Carbon::now()->endOfYear());
+
+            $profit = intval($quantity) * (floatval($book->selling_price) - floatval($book->retail_price));
+
+            Transaction::create([
+                'transaction_type_id' => $type,
+                'book_id' => $book->id,
+                'quantity' => $quantity,
+                'profit' => $profit,
+                'created_at' => $randomDate,
+                'updated_at' => $randomDate
+            ]);
+            $dates[] = $randomDate;
+        }
+
+        return $dates;
+    }
+
+    function rand_date($min_date, $max_date)
+    {
+        /* Gets 2 dates as string, earlier and later date.
+           Returns date in between them.
+        */
+
+        $min_epoch = strtotime($min_date);
+        $max_epoch = strtotime($max_date);
+
+        $rand_epoch = rand($min_epoch, $max_epoch);
+
+        return date('Y-m-d H:i:s', $rand_epoch);
     }
 
     public function getWeeks($today = null, $scheduleMonths = 6)
