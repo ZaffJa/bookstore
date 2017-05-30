@@ -4,7 +4,7 @@
 
     <div class="widget">
         <div class="widget-header"><i class="icon-bar-chart"></i>
-            <h3>Transaction Graph</h3>
+            <h3>Transactions Graph</h3>
         </div>
         <div class="widget-content">
             <ul class="nav nav-tabs">
@@ -15,14 +15,14 @@
                 <div id="weekly" class="tab-pane fade in active">
                     <div class="widget-content">
                         <h3>Weekly Profits</h3>
-                        <canvas id="area-chart" class="chart-holder" width="1000" height="400">
+                        <canvas id="weekly-chart" class="chart-holder" width="1000" height="400">
                         </canvas>
                     </div>
                 </div>
                 <div id="monthly" class="tab-pane fade">
                     <div class="widget-content">
                         <h3 class="text-center">Monthly Profits</h3>
-                        <canvas id="yearly-chart" class="chart-holder" width="1000" height="400">
+                        <canvas id="monthly-chart" class="chart-holder" width="1000" height="400">
                         </canvas>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
     </div>
     <div class="widget widget-table action-table">
         <div class="widget-header"><i class="icon-th-list"></i>
-            <h3>Transaction Informations</h3>
+            <h3>Transactions Information</h3>
         </div>
         <div class="widget-content" style="padding: 10px 20px 10px 20px;">
             <table id="books" class="table table-striped table-bordered">
@@ -99,10 +99,9 @@
                 ]
             };
 
-            new Chart(document.getElementById("area-chart").getContext("2d")).Line(monthlyChartData);
-            new Chart(document.getElementById("yearly-chart").getContext("2d")).Line(lineChartData);
+            new Chart(document.getElementById("weekly-chart").getContext("2d")).Line(monthlyChartData);
+            new Chart(document.getElementById("monthly-chart").getContext("2d")).Line(lineChartData);
         });
-
 
         $(document).ready(function () {
             $('#books').DataTable();
