@@ -98,7 +98,6 @@
                     }
                 ]
             };
-
             new Chart(document.getElementById("weekly-chart").getContext("2d")).Line(monthlyChartData);
             new Chart(document.getElementById("monthly-chart").getContext("2d")).Line(lineChartData);
         });

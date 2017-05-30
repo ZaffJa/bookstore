@@ -1,11 +1,9 @@
 <?php
-Route::get('template/{url}',function($url) {
-    return view('template.'.$url);
-});
+//Route::get('template/{url}',function($url) {
+//    return view('template.'.$url);
+//});
 
-Route::get('/',function() {
-    return view('dashboard');
-});
+Route::get('/', 'TransactionController@dashboard');
 Route::get('/dashboard/charts', 'TransactionController@charts');
 
 Route::group(['prefix' => 'book'],function (){

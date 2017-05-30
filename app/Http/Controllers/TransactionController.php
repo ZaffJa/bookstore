@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
+    public function dashboard()
+    {
+        return view('dashboard');
+    }
+
     public function transaction()
     {
         return view('transaction');
@@ -67,7 +72,9 @@ class TransactionController extends Controller
 
         $monthsArray = [];
         for ($count = 1; $count <= 12; $count++) {
-            $monthlyTransaction = Transaction::whereMonth('created_at', $count)->sum('profit');
+            $monthlyTransaction = Transaction::whereMonth('created_at', $count)
+                ->where('transaction_type_id', 1)
+                ->sum('profit');
             $monthsArray[] = $monthlyTransaction;
         }
 
@@ -77,7 +84,9 @@ class TransactionController extends Controller
             $startOfWeek = Carbon::now()->startOfMonth()->addWeek($week)->startOfWeek();
             $endOfWeek = Carbon::now()->startOfMonth()->addWeek($week)->endOfWeek();
 
-            $weeksArray[] = Transaction::whereBetween('created_at', [$startOfWeek, $endOfWeek])->sum('profit');
+            $weeksArray[] = Transaction::whereBetween('created_at', [$startOfWeek, $endOfWeek])
+                ->where('transaction_type_id', 1)
+                ->sum('profit');
         }
 
         return response()->json([

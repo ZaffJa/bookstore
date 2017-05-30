@@ -15,7 +15,7 @@
                     <div class="control-group">
                         <label class="control-label" for="barcode">Barcode</label>
                         <div class="controls">
-                            <input type="text" id="barcode" class="span6" name="barcode">
+                            <input type="text" id="barcode" class="span6" name="barcode" autofocus>
                         </div>
                     </div>
                     <div class="control-group">
@@ -179,6 +179,7 @@
                             });
                             clearInput();
                             $('#barcode').val('');
+                            $('.stock').html('In Stock: 0');
                         } else {
                             $.notify({
                                 // options
@@ -189,6 +190,8 @@
                         }
                     }
                 });
+
+                $("#barcode").focus();
             });
 
             $('#quantity').on('keyup', function () {
