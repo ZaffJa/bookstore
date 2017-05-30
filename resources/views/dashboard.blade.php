@@ -54,7 +54,7 @@
                         <td>{{ $transaction->book->title or null }}</td>
                         <td>{{ $transaction->book->publisher or null }}</td>
                         <td>{{ $transaction->quantity }}</td>
-                        <td>{{ $transaction->type == 1 ? $transaction->profit : 0 }}</td>
+                        <td>{{ $transaction->transaction_type_id == 1 ? $transaction->profit : 0 }}</td>
                         <td>{{ $transaction->created_at->format('d-m-Y') }}</td>
                     </tr>
                 @endforeach
